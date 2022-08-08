@@ -8,8 +8,11 @@ import {
   Buy,
 } from "../../styles/ProductDetails";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
+import { useStateContext } from "../../lib/context";
 
 const ProductDetails = () => {
+  // use state
+  const { qty, increaseQty, decreaseQty, onAdd } = useStateContext();
   //fetch slug
   const { query } = useRouter();
   //fetch product from strapi
@@ -33,15 +36,15 @@ const ProductDetails = () => {
 
         <Quantity>
           <span>Quantity</span>
-          <button>
+          <button onClick={decreaseQty}>
             <AiFillMinusCircle />
           </button>
-          <p>0</p>
-          <button>
+          <p>{qty}</p>
+          <button onClick={increaseQty}>
             <AiFillPlusCircle />
           </button>
         </Quantity>
-        <Buy>Add to cart</Buy>
+        <Buy onClick={()=> onAdd(data.products.data[0].attributes, qty)}>Add to cart</Buy>
       </ProductInfo>
     </DetailsStyle>
   );
